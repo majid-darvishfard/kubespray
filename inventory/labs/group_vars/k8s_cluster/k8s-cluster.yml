@@ -65,7 +65,9 @@ credentials_dir: "{{ inventory_dir }}/credentials"
 
 # Choose network plugin (cilium, calico, kube-ovn or flannel. Use cni for generic cni plugin)
 # Can also be set to 'cloud', which lets the cloud provider setup appropriate routing
-kube_network_plugin: calico
+kube_network_plugin: cni
+
+kube_proxy_remove: true
 
 # Setting multi_networking to true will install Multus: https://github.com/k8snetworkplumbingwg/multus-cni
 kube_network_plugin_multus: false
@@ -139,7 +141,7 @@ kube_proxy_nodeport_addresses: >-
 # kube_override_hostname: {{ inventory_hostname }}
 
 ## Encrypting Secret Data at Rest
-kube_encrypt_secret_data: false
+kube_encrypt_secret_data: true
 
 # Graceful Node Shutdown (Kubernetes >= 1.21.0), see https://kubernetes.io/blog/2021/04/21/graceful-node-shutdown-beta/
 # kubelet_shutdown_grace_period had to be greater than kubelet_shutdown_grace_period_critical_pods to allow
@@ -229,7 +231,7 @@ kubeadm_certificate_key: "{{ lookup('password', credentials_dir + '/kubeadm_cert
 k8s_image_pull_policy: IfNotPresent
 
 # audit log for kubernetes
-kubernetes_audit: false
+kubernetes_audit: true
 
 # define kubelet config dir for dynamic kubelet
 # kubelet_config_dir:
@@ -275,6 +277,22 @@ default_kubelet_config_dir: "{{ kube_config_dir }}/dynamic_kubelet_dir"
 # system_cpu_reserved: 500m
 # system_ephemeral_storage_reserved: 2Gi
 
+# Reserve for kube + system daemons
+system_reserved: true
+system_memory_reserved: 512Mi
+system_cpu_reserved: 500m
+system_ephemeral_storage_reserved: 2Gi
+
+kube_reserved: true
+kube_memory_reserved: 512Mi     # apiserver, etcd, etc.
+kube_cpu_reserved: 200m
+
+# Optional: tighter eviction to avoid OOM kills
+eviction_hard:
+  memory.available: "300Mi"
+  nodefs.available: "10%"
+  nodefs.inodesFree: "5%"
+
 ## Eviction Thresholds to avoid system OOMs
 # https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/#eviction-thresholds
 # eviction_hard: {}
@@ -314,7 +332,7 @@ persistent_volumes_enabled: false
 # nvidia_gpu_device_plugin_container: "registry.k8s.io/nvidia-gpu-device-plugin@sha256:0842734032018be107fa2490c98156992911e3e1f2a21e059ff0105b07dd8e9e"
 
 ## Support tls min version, Possible values: VersionTLS10, VersionTLS11, VersionTLS12, VersionTLS13.
-# tls_min_version: ""
+tls_min_version: "VersionTLS12"
 
 ## Support tls cipher suites.
 # tls_cipher_suites: {}
@@ -345,7 +363,7 @@ persistent_volumes_enabled: false
 event_ttl_duration: "1h0m0s"
 
 ## Automatically renew K8S control plane certificates on first Monday of each month
-auto_renew_certificates: false
+auto_renew_certificates: true
 # First Monday of each month
 # auto_renew_certificates_systemd_calendar: "Mon *-*-1,2,3,4,5,6,7 03:00:00"
 
@@ -370,4 +388,4 @@ kubeadm_patches: []
 # Patches are applied in the order they are specified.
 
 # Set to true to remove the role binding to anonymous users created by kubeadm
-remove_anonymous_access: false
+remove_anonymous_access: true
