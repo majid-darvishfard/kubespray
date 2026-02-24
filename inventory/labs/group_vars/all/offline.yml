@@ -1,8 +1,8 @@
 ---
 ## Global Offline settings
 ### Private Container Image Registry
-registry_host: "myprivateregisry.com"
-files_repo: "https://k8sfiles.karashab-co.ir/"
+registry_host: "reg.karashab-co.ir"
+files_repo: "https://k8sfiles.karashab-co.ir"
 ### If using CentOS, RedHat, AlmaLinux or Fedora
 # yum_repo: "http://myinternalyumrepo"
 ### If using Debian
