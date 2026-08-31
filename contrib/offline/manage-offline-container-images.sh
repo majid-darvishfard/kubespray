@@ -9,6 +9,9 @@ IMAGE_DIR="${CURRENT_DIR}/container-images"
 IMAGE_LIST="${IMAGE_DIR}/container-images.txt"
 RETRY_COUNT=5
 
+
+docker login nexus.karashab-co.ir
+
 function create_container_image_tar() {
 	set -e
 
@@ -44,7 +47,8 @@ function create_container_image_tar() {
 		set +e
 		for step in $(seq 1 ${RETRY_COUNT})
 		do
-			sudo --preserve-env=http_proxy,https_proxy,no_proxy ${runtime} pull ${image}
+			#sudo --preserve-env=http_proxy,https_proxy,no_proxy ${runtime} pull ${image}
+			${runtime} pull ${image}
 			if [ $? -eq 0 ]; then
 				break
 			fi

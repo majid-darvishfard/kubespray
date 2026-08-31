@@ -18,7 +18,7 @@ rm "${OFFLINE_FILES_ARCHIVE}"
 mkdir  "${OFFLINE_FILES_DIR}"
 
 while read -r url; do
-  if ! wget -x -P "${OFFLINE_FILES_DIR}" "${url}"; then
+  if ! wget -e https_proxy="http://127.0.0.1:10808"  -x -P "${OFFLINE_FILES_DIR}" "${url}"; then
     exit 1
   fi
 done < "${FILES_LIST}"

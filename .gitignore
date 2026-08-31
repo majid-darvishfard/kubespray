@@ -3,6 +3,7 @@
 **/vagrant_ansible_inventory
 *.iml
 temp
+contrib/offline/
 contrib/offline/container-images
 contrib/offline/container-images.tar.gz
 contrib/offline/offline-files
