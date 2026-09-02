@@ -61,6 +61,10 @@
     - kubeadm_use_file_discovery
     - kubeadm_already_run is not defined or not kubeadm_already_run.stat.exists
 
+- name: DEBUG discovery kubeconfig
+  debug:
+    var: kubeconfig_file_discovery
+    
 - name: Copy discovery kubeconfig
   copy:
     dest: "{{ kube_config_dir }}/cluster-info-discovery-kubeconfig.yaml"

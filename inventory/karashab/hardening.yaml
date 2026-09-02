@@ -83,7 +83,7 @@ kube_apiserver_admission_event_rate_limits:
     burst: 100
 kube_profiling: false
 # Remove anonymous access to cluster
-remove_anonymous_access: true
+remove_anonymous_access: false
 
 ## kube-controller-manager
 kube_controller_manager_bind_address: 127.0.0.1

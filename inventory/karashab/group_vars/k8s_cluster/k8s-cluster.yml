@@ -14,7 +14,7 @@ kube_cert_dir: "{{ kube_config_dir }}/ssl"
 # This is where all of the bearer tokens will be stored
 kube_token_dir: "{{ kube_config_dir }}/tokens"
 
-kube_api_anonymous_auth: false
+kube_api_anonymous_auth: true
 
 # Where the binaries will be downloaded.
 # Note: ensure that you've enough disk space (about 1G)
@@ -388,4 +388,4 @@ kubeadm_patches: []
 # Patches are applied in the order they are specified.
 
 # Set to true to remove the role binding to anonymous users created by kubeadm
-remove_anonymous_access: true
+remove_anonymous_access: false
