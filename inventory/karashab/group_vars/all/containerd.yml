@@ -59,30 +59,78 @@
 #   - registry: 10.0.0.2:5000
 #     username: user
 #     password: pass
+### echo -n "docker:z2hZZH6YmDY5kCGCI"
 
-containerd_registries_mirrors:
-  - prefix: docker.io
-    mirrors:
-      - host: https://reg.karashab-co.ir/docker.io
-        capabilities: ["pull", "resolve"]
-  - prefix: gcr.io
-    mirrors:
-      - host: https://reg.karashab-co.ir/gcr.io
-        capabilities: ["pull", "resolve"]
-  - prefix: registry.k8s.io
-    mirrors:
-      - host: https://reg.karashab-co.ir/registry.k8s.io
-        capabilities: ["pull", "resolve"]
-  - prefix: quay.io
-    mirrors:
-      - host: https://reg.karashab-co.ir/quay.io
-        capabilities: ["pull", "resolve"]
-  - prefix: ghcr.io
-    mirrors:
-      - host: https://reg.karashab-co.ir/ghcr.io
-        capabilities: ["pull", "resolve"]
+# Insecure registries block (using your correct local Nexus domain)
+containerd_insecure_registries:
+  "nexus.karashab-co.ir": "https://nexus.karashab-co.ir"
+
 
 containerd_registry_auth:
-  - registry: reg.karashab-co.ir
-    username: k8s
-    password: 0YR34h9obzWV4k
+  - registry: nexus.karashab-co.ir
+    username: docker
+    password: z2hZZH6YmDY5kCGCI
+
+# Reusable Nexus credentials block
+nexus_registry_user: "docker"
+nexus_registry_pass: "z2hZZH6YmDY5kCGCI"
+
+# Modern containerd mirror map using native Ansible base64 encoding
+containerd_registries_mirrors:
+  - prefix: docker.io
+    server: https://nexus.karashab-co.ir
+    mirrors:
+      - host: https://nexus.karashab-co.ir/v2/docker.io
+        override_path: true
+        skip_verify: true
+        capabilities: ["pull", "resolve"]
+        header:
+          Authorization: "Basic {{ (nexus_registry_user + ':' + nexus_registry_pass) | b64encode }}"
+
+  - prefix: gcr.io
+    server: https://nexus.karashab-co.ir
+    mirrors:
+      - host: https://nexus.karashab-co.ir/v2/gcr.io
+        override_path: true
+        skip_verify: true
+        capabilities: ["pull", "resolve"]
+        header:
+          Authorization: "Basic {{ (nexus_registry_user + ':' + nexus_registry_pass) | b64encode }}"
+
+  - prefix: registry.k8s.io
+    server: https://nexus.karashab-co.ir
+    mirrors:
+      - host: https://nexus.karashab-co.ir/v2/registry.k8s.io
+        override_path: true
+        skip_verify: true
+        capabilities: ["pull", "resolve"]
+        header:
+          Authorization: "Basic {{ (nexus_registry_user + ':' + nexus_registry_pass) | b64encode }}"
+
+  - prefix: quay.io
+    server: https://nexus.karashab-co.ir
+    mirrors:
+      - host: https://nexus.karashab-co.ir/v2/quay.io
+        override_path: true
+        skip_verify: true
+        capabilities: ["pull", "resolve"]
+        header:
+          Authorization: "Basic {{ (nexus_registry_user + ':' + nexus_registry_pass) | b64encode }}"
+
+  - prefix: ghcr.io
+    server: https://nexus.karashab-co.ir
+    mirrors:
+      - host: https://nexus.karashab-co.ir/v2/ghcr.io
+        override_path: true
+        skip_verify: true
+        capabilities: ["pull", "resolve"]
+        header:
+          Authorization: "Basic {{ (nexus_registry_user + ':' + nexus_registry_pass) | b64encode }}"
+
+  # - prefix: "{{ registry_host }}"
+  #   mirrors:
+  #     - host: "https://{{ registry_host }}"
+  #       capabilities: ["pull", "resolve"]
+  #       skip_verify: false
+  #   header:
+  #       Authorization: ["Basic {{ (registry_user + ':' + registry_pass) | b64encode }}"]

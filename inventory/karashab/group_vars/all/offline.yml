@@ -1,7 +1,9 @@
 ---
 ## Global Offline settings
 ### Private Container Image Registry
-registry_host: "reg.karashab-co.ir"
+registry_host: "nexus.karashab-co.ir"
+registry_user: "docker"
+registry_pass: "z2hZZH6YmDY5kCGCI"
 files_repo: "https://k8sfiles.karashab-co.ir"
 ### If using CentOS, RedHat, AlmaLinux or Fedora
 # yum_repo: "http://myinternalyumrepo"
@@ -20,7 +22,7 @@ files_repo: "https://k8sfiles.karashab-co.ir"
 kube_image_repo: "{{ registry_host }}/registry.k8s.io"
 gcr_image_repo: "{{ registry_host }}/gcr.io"
 github_image_repo: "{{ registry_host }}/ghcr.io"
-docker_image_repo: "{{ registry_host }}/docker.io"
+docker_image_repo: "{{ registry_host }}/hub.docker.com"
 quay_image_repo: "{{ registry_host }}/quay.io"
 
 
