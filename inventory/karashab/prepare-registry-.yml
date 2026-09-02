@@ -1,0 +1,24 @@
+- name: Prepare Nexus authentication
+  hosts: kube_control_plane:kube_node
+  become: true
+
+  tasks:
+    - name: Create docker config directory
+      ansible.builtin.file:
+        path: /root/.docker
+        state: directory
+        mode: "0700"
+
+    - name: Configure nerdctl registry authentication
+      ansible.builtin.copy:
+        dest: /root/.docker/config.json
+        mode: "0600"
+        content: |
+          {
+            "auths": {
+              "nexus.karashab-co.ir": {
+                "auth": "{{ (nexus_registry_user ~ ':' ~ nexus_registry_pass) | b64encode }}"
+              }
+            }
+          }
+      no_log: true
