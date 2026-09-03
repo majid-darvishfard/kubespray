@@ -300,19 +300,19 @@ system_ephemeral_storage_reserved: 2Gi
 ## Supplementary addresses that can be added in kubernetes ssl keys.
 ## That can be useful for example to setup a keepalived virtual IP
 supplementary_addresses_in_ssl_keys:
-  -192.168.5.10
-  -192.168.5.191
-  -192.168.5.192
-  -192.168.5.193
-  -192.168.5.194
-  -192.168.5.195
-  -192.168.5.196
-  -kara-k8s-master1
-  -kara-k8s-master2
-  -kara-k8s-master3
-  -kara-k8s-worker1
-  -kara-k8s-worker2
-  -kara-k8s-worker3
+  - 192.168.5.10
+  - 192.168.5.191
+  - 192.168.5.192
+  - 192.168.5.193
+  - 192.168.5.194
+  - 192.168.5.195
+  - 192.168.5.196
+  - kara-k8s-master1
+  - kara-k8s-master2
+  - kara-k8s-master3
+  - kara-k8s-worker1
+  - kara-k8s-worker2
+  - kara-k8s-worker3
 
 
 
