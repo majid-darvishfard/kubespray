@@ -1,4 +1,8 @@
 ---
+# When true, kubeadm skips the kube-proxy addon (for example Cilium kube-proxy replacement).
+# Node and package tasks that exist only for kube-proxy also honor this (IPVS/nftables modules, ipvsadm, strict_arp checks).
+kube_proxy_remove: true
+
 # Helm deployment
 helm_enabled: true
 
